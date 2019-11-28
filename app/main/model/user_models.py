@@ -24,7 +24,7 @@ class Patient(db.Model):
         return flask_bcrypt.check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return "<User '{}'>".format(self.username)
+        return "<Patient '{}'>".format(self.username)
 
 class Doctor(db.Model):
     """ User Model for storing user related details """
