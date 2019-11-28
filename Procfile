@@ -1,1 +1,1 @@
-web: python manage.py db upgrade; python manage.py db migrate; python manage.py run -p 5000
+web: python manage.py db upgrade; python manage.py db migrate; gunicorn manage.py run -p 5000;
