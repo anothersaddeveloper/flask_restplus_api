@@ -38,5 +38,11 @@ def get_a_user(id):
 
 
 def save_changes(data):
-    db.session.add(data)
-    db.session.commit()
+    try:
+        db.session.add(data)
+        db.session.commit()
+    except:
+        db.session.rollback()
+        raise
+    finally:
+        db.session.close()
