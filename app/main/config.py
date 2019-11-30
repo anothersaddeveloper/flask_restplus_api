@@ -26,6 +26,7 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
+    LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
     SQLALCHEMY_DATABASE_URI = "postgresql://localhost/"
 
 
