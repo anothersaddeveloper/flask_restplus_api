@@ -79,6 +79,7 @@ class InsuranceProfessional(db.Model):
 class DiabetesRecord(db.Model):
     """ Diabetes object to store patient diabetes data """
     __tablename__ = "diabetes_history"
+    __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'))
@@ -97,7 +98,7 @@ class DiabetesRecord(db.Model):
 
     def __repr__(self):
         return "<User '{}'>".format(self.username)
-        
+
 class CancerRecord(db.Model):
     """ Cancer object to store patient diabetes data """
     __tablename__ = "cancer_history"
