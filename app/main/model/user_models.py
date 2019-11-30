@@ -2,7 +2,7 @@ from .. import db, flask_bcrypt
 from datetime import datetime
 
 class Patient(db.Model):
-    """ User Model for storing user related details """
+    """ Patient Model for storing patient related details """
     __tablename__ = "patients"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -28,7 +28,7 @@ class Patient(db.Model):
         return "<Patient '{}'>".format(self.username)
 
 class Doctor(db.Model):
-    """ User Model for storing user related details """
+    """ Doctor Model to store doctor info """
     __tablename__ = "doctors"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -53,7 +53,7 @@ class Doctor(db.Model):
         return "<User '{}'>".format(self.username)
 
 class InsuranceProfessional(db.Model):
-    """ User Model for storing user related details """
+    """ Insurance professional object for storing user related details """
     __tablename__ = "insurance_professionals"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -77,6 +77,7 @@ class InsuranceProfessional(db.Model):
         return "<User '{}'>".format(self.username)
 
 class DiabetesRecord(db.Model):
+    """ Diabetes object to store patient diabetes data """
     __tablename__ = "diabetes_history"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -89,7 +90,6 @@ class DiabetesRecord(db.Model):
     bmi = db.Column(db.Float)
     diabetes_pedigree_function = db.Column(db.Float)
     age = db.Column(db.Integer)
-    class_variable = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, nullable=False)
 
     def get_timestamp(self):
@@ -97,20 +97,22 @@ class DiabetesRecord(db.Model):
 
     def __repr__(self):
         return "<User '{}'>".format(self.username)
+        
 class CancerRecord(db.Model):
-    __tablename__ = "diabetes_history"
+    """ Cancer object to store patient diabetes data """
+    __tablename__ = "cancer_history"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'))
-    times_pregnant = db.Column(db.Integer)
-    glucose_concentration = db.Column(db.Integer)
-    diastolic_blood_pressure = db.Column(db.Integer)
-    triceps_skin_fold_thickness = db.Column(db.Integer)
-    bmi = db.Column(db.Float)
-    bmi = db.Column(db.Float)
-    diabetes_pedigree_function = db.Column(db.Float)
     age = db.Column(db.Integer)
-    class_variable = db.Column(db.Integer)
+    bmi = db.Column(db.Float)
+    glucose = db.Column(db.Float)
+    insulin = db.Column(db.Float)
+    homa = db.Column(db.Integer)
+    leptin = db.Column(db.Float)
+    adiponectin = db.Column(db.Integer)
+    resistin = db.Column(db.Integer)
+    mcp_1 = db.Column(db.Float)
     timestamp = db.Column(db.DateTime, nullable=False)
 
     def get_timestamp(self):
@@ -118,20 +120,27 @@ class CancerRecord(db.Model):
 
     def __repr__(self):
         return "<User '{}'>".format(self.username)
+
 class HeartDiseaseRecord(db.Model):
-    __tablename__ = "diabetes_history"
+    """ Heart disease object to store patient diabetes data """
+    __tablename__ = "heart_disease_history"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'))
-    times_pregnant = db.Column(db.Integer)
-    glucose_concentration = db.Column(db.Integer)
-    diastolic_blood_pressure = db.Column(db.Integer)
-    triceps_skin_fold_thickness = db.Column(db.Integer)
-    bmi = db.Column(db.Float)
-    bmi = db.Column(db.Float)
-    diabetes_pedigree_function = db.Column(db.Float)
     age = db.Column(db.Integer)
-    class_variable = db.Column(db.Integer)
+    sex = db.Column(db.Integer)
+    chest_pain_type = db.Column(db.Integer)
+    resting_blood_pressure = db.Column(db.Integer)
+    cholesterol = db.Column(db.Integer)
+    fasting_blood_sugar = db.Column(db.Float)
+    resting_electrocardiographic = db.Column(db.Float)
+    maximum_heart_rate = db.Column(db.Integer)
+    exercise_induced_angina = db.Column(db.Integer)
+    epression_induced_exercise = db.Column(db.Integer)
+    peak_exercise = db.Column(db.Integer)
+    number_major_vessels = db.Column(db.Integer)
+    thal = db.Column(db.Integer)
+    diagnosis_heart_disease = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, nullable=False)
 
     def get_timestamp(self):
