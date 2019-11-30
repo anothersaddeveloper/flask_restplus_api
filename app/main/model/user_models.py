@@ -12,6 +12,7 @@ class Patient(db.Model):
     password_hash = db.Column(db.String(100))
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctors.id'))
     diabetes_records = db.relationship("DiabetesRecord")
+    
     @property
     def password(self):
         raise AttributeError('password: write-only field')
