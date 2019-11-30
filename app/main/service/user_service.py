@@ -11,10 +11,9 @@ def save_new_user(data):
         new_user = Patient(
             email=data['email'],
             username=data['username'],
-            password=data['password'],
             registered_on=datetime.datetime.utcnow()
         )
-
+        new_user.password_hash(password=data['password'])
         save_changes(new_user)
         response_object = {
             'status': 'success',
