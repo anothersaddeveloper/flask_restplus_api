@@ -6,9 +6,9 @@ from app.main.model.user_models import Doctor, Patient, InsuranceProfessional
 
 
 def save_new_user(data):
-    doctor = Doctor.query.filter_by(username=data['username']).first()
-    insurance_professional = InsuranceProfessional.query.filter_by(username=data['username']).first()
-    if not doctor and not insurance_professional:
+    exists_doctor = Doctor.query.filter_by(username=data['username']).first()
+    exists_insurance_professional = InsuranceProfessional.query.filter_by(username=data['username']).first()
+    if not exists_doctor and not exists_insurance_professional:
         new_user = create_new_user(data)
         save_changes(new_user)
         response_object = {
@@ -42,10 +42,20 @@ def create_new_user(data):
 def get_all_patients():
     return Patient.query.all()
 
+def get_all_doctors():
+    return Doctor.query.all()
 
-def get_a_user(id):
+def get_all_insurance_professionals():
+    return InsuranceProfessional.query.all()
+    
+def get_a_patient(id):
     return Patient.query.filter_by(id=id).first()
 
+def get_a_doctor(id):
+    return Doctor.query.filter_by(id=id).first()
+
+def get_an_insurance_professional(id):
+    return InsuranceProfessional.query.filter_by(id=id).first()
 
 def save_changes(data):
     try:

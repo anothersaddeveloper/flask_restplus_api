@@ -8,7 +8,7 @@ api = PatientDto.api
 _patient = PatientDto.user
 
 
-@api.route('/')
+@api.route('/patient')
 class PatientList(Resource):
     @api.doc('list of all patients')
     @api.marshal_list_with(_patient, envelope='data')
@@ -25,7 +25,7 @@ class PatientList(Resource):
         return save_new_user(data=data)
 
 
-@api.route('/<id>')
+@api.route('/patient/<id>')
 @api.param('id', 'Patient ID')
 @api.response(404, 'User not found.')
 class Patient(Resource):
@@ -38,3 +38,20 @@ class Patient(Resource):
             api.abort(404)
         else:
             return patient
+
+
+@api.route('/')
+class PatientList(Resource):
+    @api.doc('list of all patients')
+    @api.marshal_list_with(_patient, envelope='data')
+    def get(self):
+        """List all registered patients"""
+        return get_all_patients()
+
+    @api.response(201, 'User successfully created.')
+    @api.doc('create a new patient')
+    @api.expect(_patient, validate=True)
+    def post(self):
+        """Creates a new User """
+        data = request.json
+        return save_new_user(data=data)

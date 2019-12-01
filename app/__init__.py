@@ -12,4 +12,4 @@ api = Api(blueprint,
           description='A Swagger interface with API examples for API calls and DTOs'
           )
 
-api.add_namespace(user_ns, path='/patient')
+api.add_namespace(user_ns, path='/medi')
