@@ -88,7 +88,6 @@ class DiabetesRecord(db.Model):
     diastolic_blood_pressure = db.Column(db.Integer)
     triceps_skin_fold_thickness = db.Column(db.Integer)
     bmi = db.Column(db.Float)
-    bmi = db.Column(db.Float)
     diabetes_pedigree_function = db.Column(db.Float)
     age = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, nullable=False)

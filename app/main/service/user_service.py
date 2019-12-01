@@ -6,15 +6,10 @@ from app.main.model.user_models import Doctor, Patient, InsuranceProfessional
 
 
 def save_new_user(data):
-    user = Patient.query.filter_by(username=data['username']).first()
-    if not user:
-        new_user = Patient(
-            email=data['email'],
-            username=data['username'],
-            password=data['password'],
-            registered_on=datetime.datetime.utcnow()
-        )
-
+    doctor = Doctor.query.filter_by(username=data['username']).first()
+    insurance_professional = InsuranceProfessional.query.filter_by(username=data['username']).first()
+    if not doctor and not insurance_professional:
+        new_user = create_new_user(data)
         save_changes(new_user)
         response_object = {
             'status': 'success',
@@ -28,8 +23,23 @@ def save_new_user(data):
         }
         return response_object, 409
 
+def create_new_user(data):
+    if data['profession'] == 'Doctor':
+        return Doctor(
+            email=data['email'],
+            username=data['username'],
+            password=data['password'],
+            registered_on=datetime.datetime.utcnow()
+        )
+    elif data['profession'] == 'InsuranceProfessional':
+        return InsuranceProfessional(
+            email=data['email'],
+            username=data['username'],
+            password=data['password'],
+            registered_on=datetime.datetime.utcnow()
+        )
 
-def get_all_users():
+def get_all_patients():
     return Patient.query.all()
 
 
