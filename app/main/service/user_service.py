@@ -2,7 +2,7 @@ import uuid
 import datetime
 
 from app.main import db
-from app.main.model.user_models import Doctor, Patient, InsuranceProfessional
+from app.main.model.user_models import Doctor, Patient, InsuranceProfessional, CancerRecord, DiabetesRecord, HeartDiseaseRecord
 
 
 def save_new_user(data):
@@ -38,6 +38,13 @@ def create_new_user(data):
             password=data['password'],
             registered_on=datetime.datetime.utcnow()
         )
+    else:
+        return Patient(
+            email=data['email'],
+            username=data['username'],
+            password=data['password'],
+            registered_on=datetime.datetime.utcnow()
+        )
 
 def get_all_patients():
     return Patient.query.all()
@@ -56,6 +63,24 @@ def get_a_doctor(id):
 
 def get_an_insurance_professional(id):
     return InsuranceProfessional.query.filter_by(id=id).first()
+
+def get_all_cancer_records():
+    return CancerRecord.query.all()
+
+def get_all_diabetes_records():
+    return DiabetesRecord.query.all()
+
+def get_all_heart_records():
+    return HeartDiseaseRecord.query.all()
+    
+def get_patient_cancer_records(id):
+    return CancerRecord.query.filter_by(patient_id=id).all()
+
+def get_patient_diabetes_records(id):
+    return DiabetesRecord.query.filter_by(patient_id=id).all()
+
+def get_patient_heart_records(id):
+    return HeartDiseaseRecord.query.filter_by(patient_id=id).all()
 
 def save_changes(data):
     try:
