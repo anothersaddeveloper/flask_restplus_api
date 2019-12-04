@@ -2,7 +2,7 @@
 from flask_restplus import Api
 from flask import Blueprint
 
-from .main.controller.rest_db_controller import patient_api, doctor_api, insurance_professional_api
+from .main.controller.rest_db_controller import patient_api, doctor_api, insurance_professional_api, cancer_api, diabetes_api, heart_api
 
 blueprint = Blueprint('api', __name__)
 

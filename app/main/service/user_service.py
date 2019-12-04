@@ -28,6 +28,8 @@ def create_new_user(data):
         return Doctor(
             email=data['email'],
             username=data['username'],
+            first_name=data['first_name'],
+            last_name=data['last_name'],
             password=data['password'],
             registered_on=datetime.datetime.utcnow()
         )
@@ -35,6 +37,8 @@ def create_new_user(data):
         return InsuranceProfessional(
             email=data['email'],
             username=data['username'],
+            first_name=data['first_name'],
+            last_name=data['last_name'],
             password=data['password'],
             registered_on=datetime.datetime.utcnow()
         )
@@ -42,9 +46,59 @@ def create_new_user(data):
         return Patient(
             email=data['email'],
             username=data['username'],
+            first_name=data['first_name'],
+            last_name=data['last_name'],
             password=data['password'],
             registered_on=datetime.datetime.utcnow()
         )
+
+def save_new_record(data):
+    diabetes = DiabetesRecord(
+        bmi=data['bmi'],
+        age=data['age'],
+        patient_id=data['patient_id'],
+        times_pregnant=data['times_pregnant'],
+        glucose_concentration=data['glucose_concentration'],
+        diastolic_blood_pressure=data['diastolic_blood_pressure'],
+        diabetes_pedigree_function=data['diabetes_pedigree_function'],
+        triceps_skin_fold_thickness=data['triceps_skin_fold_thickness']
+    )
+
+    patient_exists = Patient.query.filter_by(id=data['patient_id']).first()
+    if patient_exists:
+        # TODO create a function to create a record depending on data attribute
+        new_record = diabetes
+        save_changes(new_record)
+        response_object = {
+            'status': 'success',
+            'message': 'Successfully created record.'
+        }
+        return response_object, 201
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Patient not found. Please Log in.',
+        }
+        return response_object, 409
+
+def create_new_record(data):
+    if data['type'] == 'Diabetes':
+        return DiabetesRecord(
+            bmi=data['bmi'],
+            age=data['age'],
+            patient_id=data['patient_id'],
+            times_pregnant=data['times_pregnant'],
+            glucose_concentration=data['glucose_concentration'],
+            diastolic_blood_pressure=data['diastolic_blood_pressure'],
+            diabetes_pedigree_function=data['diabetes_pedigree_function'],
+            triceps_skin_fold_thickness=data['triceps_skin_fold_thickness']
+        )
+    elif data['type'] == 'Cancer':
+        # TODO implement cancer creation
+        return ""
+    elif data['type'] == 'HeartDisease':
+        # TODO implement heart creation
+        return ""
 
 def get_all_patients():
     return Patient.query.all()
@@ -73,6 +127,19 @@ def get_all_diabetes_records():
 def get_all_heart_records():
     return HeartDiseaseRecord.query.all()
     
+def get_all_diabetes_records_for_patient(first_name, last_name):
+    patient = Patient.query.filter_by(first_name=first_name, last_name=last_name).first()
+    if patient:
+        queried_patient_id = patient.id
+        return DiabetesRecord.filter_by(patient_id=queried_patient_id).all()
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'User not found. Please check your input.',
+        }
+        return response_object, 404
+
+
 def get_patient_cancer_records(id):
     return CancerRecord.query.filter_by(patient_id=id).all()
 

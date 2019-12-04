@@ -1,8 +1,8 @@
-"""initial database migration
+"""empty message
 
-Revision ID: 18113f6eb96d
+Revision ID: 769aab71ed1a
 Revises: 
-Create Date: 2019-11-28 10:49:10.718520
+Create Date: 2019-12-04 19:03:59.249600
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '18113f6eb96d'
+revision = '769aab71ed1a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,6 +23,8 @@ def upgrade():
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('registered_on', sa.DateTime(), nullable=False),
     sa.Column('username', sa.String(length=50), nullable=True),
+    sa.Column('first_name', sa.String(length=50), nullable=True),
+    sa.Column('last_name', sa.String(length=50), nullable=True),
     sa.Column('password_hash', sa.String(length=100), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
@@ -32,6 +34,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('registered_on', sa.DateTime(), nullable=False),
+    sa.Column('first_name', sa.String(length=50), nullable=True),
+    sa.Column('last_name', sa.String(length=50), nullable=True),
     sa.Column('username', sa.String(length=50), nullable=True),
     sa.Column('password_hash', sa.String(length=100), nullable=True),
     sa.PrimaryKeyConstraint('id'),
@@ -43,6 +47,8 @@ def upgrade():
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('registered_on', sa.DateTime(), nullable=False),
     sa.Column('username', sa.String(length=50), nullable=True),
+    sa.Column('first_name', sa.String(length=50), nullable=True),
+    sa.Column('last_name', sa.String(length=50), nullable=True),
     sa.Column('password_hash', sa.String(length=100), nullable=True),
     sa.Column('doctor_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['doctor_id'], ['doctors.id'], ),
@@ -50,9 +56,25 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-    op.create_table('diabetes_history',
+    op.create_table('cancer_history',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('patient_id', sa.Integer(), nullable=True),
+    sa.Column('age', sa.Integer(), nullable=True),
+    sa.Column('bmi', sa.Float(), nullable=True),
+    sa.Column('glucose', sa.Float(), nullable=True),
+    sa.Column('insulin', sa.Float(), nullable=True),
+    sa.Column('homa', sa.Integer(), nullable=True),
+    sa.Column('leptin', sa.Float(), nullable=True),
+    sa.Column('adiponectin', sa.Integer(), nullable=True),
+    sa.Column('resistin', sa.Integer(), nullable=True),
+    sa.Column('mcp_1', sa.Float(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('diabetes_history',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('patient_id', sa.Integer(), nullable=False),
     sa.Column('times_pregnant', sa.Integer(), nullable=True),
     sa.Column('glucose_concentration', sa.Integer(), nullable=True),
     sa.Column('diastolic_blood_pressure', sa.Integer(), nullable=True),
@@ -60,7 +82,27 @@ def upgrade():
     sa.Column('bmi', sa.Float(), nullable=True),
     sa.Column('diabetes_pedigree_function', sa.Float(), nullable=True),
     sa.Column('age', sa.Integer(), nullable=True),
-    sa.Column('class_variable', sa.Integer(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('heart_disease_history',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('patient_id', sa.Integer(), nullable=True),
+    sa.Column('age', sa.Integer(), nullable=True),
+    sa.Column('sex', sa.Integer(), nullable=True),
+    sa.Column('chest_pain_type', sa.Integer(), nullable=True),
+    sa.Column('resting_blood_pressure', sa.Integer(), nullable=True),
+    sa.Column('cholesterol', sa.Integer(), nullable=True),
+    sa.Column('fasting_blood_sugar', sa.Float(), nullable=True),
+    sa.Column('resting_electrocardiographic', sa.Float(), nullable=True),
+    sa.Column('maximum_heart_rate', sa.Integer(), nullable=True),
+    sa.Column('exercise_induced_angina', sa.Integer(), nullable=True),
+    sa.Column('epression_induced_exercise', sa.Integer(), nullable=True),
+    sa.Column('peak_exercise', sa.Integer(), nullable=True),
+    sa.Column('number_major_vessels', sa.Integer(), nullable=True),
+    sa.Column('thal', sa.Integer(), nullable=True),
+    sa.Column('diagnosis_heart_disease', sa.Integer(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -70,7 +112,9 @@ def upgrade():
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
+    op.drop_table('heart_disease_history')
     op.drop_table('diabetes_history')
+    op.drop_table('cancer_history')
     op.drop_table('patients')
     op.drop_table('insurance_professionals')
     op.drop_table('doctors')

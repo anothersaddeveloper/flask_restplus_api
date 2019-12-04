@@ -9,6 +9,8 @@ class Patient(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
     username = db.Column(db.String(50), unique=True)
+    first_name = db.Column(db.String(50))
+    last_name = db.Column(db.String(50))
     password_hash = db.Column(db.String(100))
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctors.id'))
     diabetes_records = db.relationship("DiabetesRecord")
@@ -35,6 +37,8 @@ class Doctor(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
     username = db.Column(db.String(50), unique=True)
+    first_name = db.Column(db.String(50))
+    last_name = db.Column(db.String(50))
     password_hash = db.Column(db.String(100))
     patients = db.relationship("Patient")
 
@@ -59,6 +63,8 @@ class InsuranceProfessional(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
+    first_name = db.Column(db.String(50))
+    last_name = db.Column(db.String(50))
     username = db.Column(db.String(50), unique=True)
     password_hash = db.Column(db.String(100))
 
@@ -82,7 +88,7 @@ class DiabetesRecord(db.Model):
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'))
+    patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
     times_pregnant = db.Column(db.Integer)
     glucose_concentration = db.Column(db.Integer)
     diastolic_blood_pressure = db.Column(db.Integer)
