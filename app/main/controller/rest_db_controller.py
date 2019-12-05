@@ -129,7 +129,7 @@ class InsuranceProfessional(Resource):
 @cancer_api.param('id', 'insurance professional ID')
 @cancer_api.response(404, 'no records for given patient')
 class CancerRecord(Resource):
-    @cancer_api.doc('get a cancer records for a patient')
+    @cancer_api.doc('get cancer records for a patient')
     @cancer_api.marshal_with(_cancer)
     def get(self, public_id):
         """get a patient given its identifier"""
