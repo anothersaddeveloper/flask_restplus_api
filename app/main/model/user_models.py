@@ -1,6 +1,6 @@
 from .. import db, flask_bcrypt
 from datetime import datetime
-
+from werkzeug.security import generate_password_hash, check_password_hash
 class Patient(db.Model):
     """ Patient Model for storing patient related details """
     __tablename__ = "patients"
@@ -15,16 +15,15 @@ class Patient(db.Model):
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctors.id'))
     diabetes_records = db.relationship("DiabetesRecord")
 
-    @property
-    def password(self):
-        raise AttributeError('password: write-only field')
+    # @property
+    # def password(self):
+    #     raise AttributeError('password: write-only field')
 
-    @password.setter
-    def password(self, password):
-        self.password_hash = flask_bcrypt.generate_password_hash(password).decode('utf-8')
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-        return flask_bcrypt.check_password_hash(self.password_hash, password)
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return "<Patient '{}'>".format(self.username)
@@ -42,16 +41,10 @@ class Doctor(db.Model):
     password_hash = db.Column(db.String(100))
     patients = db.relationship("Patient")
 
-    @property
-    def password(self):
-        raise AttributeError('password: write-only field')
-
-    @password.setter
     def password(self, password):
-        self.password_hash = flask_bcrypt.generate_password_hash(password).decode('utf-8')
-
+        self.password_hash = generate_password_hash(password)
     def check_password(self, password):
-        return flask_bcrypt.check_password_hash(self.password_hash, password)
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return "<User '{}'>".format(self.username)

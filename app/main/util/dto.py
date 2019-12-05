@@ -8,7 +8,7 @@ class DoctorDto:
         'username': fields.String(required=True, description='doctor username'),
         'first_name': fields.String(required=True, description='doctors first name'),
         'last_name': fields.String(required=True, description='doctors last name'),
-        'password': fields.String(required=True, description='doctor password'),
+        'password_hash': fields.String(required=True, description='doctor password'),
         'profession': fields.String(required=True, description='profession variable')
     })
 
@@ -19,7 +19,7 @@ class PatientDto:
         'username': fields.String(required=True, description='patient username'),
         'first_name': fields.String(required=True, description='patients first name'),
         'last_name': fields.String(required=True, description='patients last name'),
-        'password': fields.String(required=True, description='patient password'),
+        'password_hash': fields.String(required=True, description='patient password'),
         'profession': fields.String(required=True, description='profession variable')
     })
 
@@ -31,7 +31,7 @@ class InsuranceProfessionalDto:
         'username': fields.String(required=True, description='insurance professional username'),
         'first_name': fields.String(required=True, description='professionals first name'),
         'last_name': fields.String(required=True, description='professionals last name'),
-        'password': fields.String(required=True, description='insurance professional password'),
+        'password_hash': fields.String(required=True, description='insurance professional password'),
         'profession': fields.String(required=True, description='profession variable')
     })
 
@@ -55,13 +55,13 @@ class DiabetesRecordDto:
         'patient_id': fields.Integer(required=True, description='patients id'),
         'age': fields.Integer(required=True, description='patients age'),
         'bmi': fields.Float(required=True, description='patients bmi'),
-        'glucose': fields.Integer(required=True, description='patients glucose'),
-        'insulin': fields.Integer(required=True, description='patients insulin'),
-        'homa': fields.Integer(required=True, description='patients homa'),
-        'leptin': fields.Integer(required=True, description='patients leptin'),
-        'adiponectin': fields.Integer(required=True, description='patients adiponectin'),
-        'resistin': fields.Integer(required=True, description='patients resistin'),
-        'mcp_1': fields.Integer(required=True, description='patients mcp_1')
+        'times_pregnant': fields.Integer(required=True, description='patients glucose'),
+        'diabetes_pedigree_function': fields.Float(required=True, description='patients insulin'),
+        'times_pregnant': fields.Integer(required=True, description='patients homa'),
+        'glucose_concentration': fields.Float(required=True, description='patients leptin'),
+        'diastolic_blood_pressure': fields.Float(required=True, description='patients adiponectin'),
+        'triceps_skin_fold_thickness': fields.Float(required=True, description='patients resistin'),
+        'diabetes_pedigree_function': fields.Float(required=True, description='patients mcp_1')
     })
 
 class HeartRecordDto:
@@ -78,9 +78,16 @@ class HeartRecordDto:
         'mcp_1': fields.Integer(required=True, description='profession variable')
     })
 
-class AuthDto:
+class LoginDto:
     api = Namespace('auth', description='authentication related operations')
-    user_auth = api.model('auth_details', {
-        'email': fields.String(required=True, description='The email address'),
+    user_auth = api.model('user_auth', {
+        'username': fields.String(required=True, description='The username'),
+        'password': fields.String(required=True, description='The user password '),
+    })
+
+class PatientDiabetesHistoryDto:
+    api = Namespace('diabetes', description='authentication related operations')
+    diabetes_history = api.model('diabetes', {
+        'username': fields.String(required=True, description='The username'),
         'password': fields.String(required=True, description='The user password '),
     })

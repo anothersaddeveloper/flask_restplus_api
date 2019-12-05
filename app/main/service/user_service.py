@@ -25,14 +25,15 @@ def save_new_user(data):
 
 def create_new_user(data):
     if data['profession'] == 'Doctor':
-        return Doctor(
+        doctor = Doctor(
             email=data['email'],
             username=data['username'],
             first_name=data['first_name'],
             last_name=data['last_name'],
-            password=data['password'],
             registered_on=datetime.datetime.utcnow()
         )
+        doctor.set_password(data['password'])
+        return doctor
     elif data['profession'] == 'InsuranceProfessional':
         return InsuranceProfessional(
             email=data['email'],
@@ -43,14 +44,15 @@ def create_new_user(data):
             registered_on=datetime.datetime.utcnow()
         )
     else:
-        return Patient(
+        patient = Patient(
             email=data['email'],
             username=data['username'],
             first_name=data['first_name'],
             last_name=data['last_name'],
-            password=data['password'],
             registered_on=datetime.datetime.utcnow()
         )
+        patient.set_password(data['password'])
+        return patient
 
 def save_new_record(data):
     diabetes = DiabetesRecord(
@@ -61,7 +63,8 @@ def save_new_record(data):
         glucose_concentration=data['glucose_concentration'],
         diastolic_blood_pressure=data['diastolic_blood_pressure'],
         diabetes_pedigree_function=data['diabetes_pedigree_function'],
-        triceps_skin_fold_thickness=data['triceps_skin_fold_thickness']
+        triceps_skin_fold_thickness=data['triceps_skin_fold_thickness'],
+        timestamp=datetime.datetime.now()
     )
 
     patient_exists = Patient.query.filter_by(id=data['patient_id']).first()
@@ -100,6 +103,29 @@ def create_new_record(data):
         # TODO implement heart creation
         return ""
 
+def login_user(data):
+    patient = Patient.query.filter_by(username=data['username']).first()
+    if patient:
+        password_check = patient.check_password(patient.password_hash, data['password'])
+        if password_check:
+            response_object = {
+                'status': 'success',
+                'message': 'Successfully logged in.'
+            }
+            return response_object, 200
+        else:
+            response_object = {
+                'status': 'failed',
+                'message': 'Incorrect username or password.'
+            }
+            return response_object, 404
+    else:
+        response_object = {
+                'status': 'failed',
+                'message': 'Patient not found.'
+            }
+        return response_object, 404
+
 def get_all_patients():
     return Patient.query.all()
 
@@ -131,7 +157,7 @@ def get_all_diabetes_records_for_patient(first_name, last_name):
     patient = Patient.query.filter_by(first_name=first_name, last_name=last_name).first()
     if patient:
         queried_patient_id = patient.id
-        return DiabetesRecord.filter_by(patient_id=queried_patient_id).all()
+        return DiabetesRecord.query.filter_by(patient_id=queried_patient_id).all()
     else:
         response_object = {
             'status': 'fail',
