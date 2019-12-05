@@ -1,5 +1,16 @@
 from flask_restplus import Namespace, fields
 
+class PatientDto:
+    api = Namespace('patient', description='patient related operations')
+    patient = api.model('patient', {
+        'id': fields.Integer(description='patients id'),
+        'email': fields.String(required=True, description='patients email address'),
+        'username': fields.String(required=True, description='patients username'),
+        'first_name': fields.String(required=True, description='patients first name'),
+        'last_name': fields.String(required=True, description='patients last name'),
+        'password_hash': fields.String(required=True, description='patient password'),
+        'profession': fields.String(required=True, description='profession variable')
+    })
 
 class DoctorDto:
     api = Namespace('doctor', description='doctor related operations')
@@ -11,18 +22,6 @@ class DoctorDto:
         'password_hash': fields.String(required=True, description='doctor password'),
         'profession': fields.String(required=True, description='profession variable')
     })
-
-class PatientDto:
-    api = Namespace('patient', description='patient related operations')
-    patient = api.model('patient', {
-        'email': fields.String(required=True, description='patient email address'),
-        'username': fields.String(required=True, description='patient username'),
-        'first_name': fields.String(required=True, description='patients first name'),
-        'last_name': fields.String(required=True, description='patients last name'),
-        'password_hash': fields.String(required=True, description='patient password'),
-        'profession': fields.String(required=True, description='profession variable')
-    })
-
 
 class InsuranceProfessionalDto:
     api = Namespace('insurance_professional', description='insurance professional related operations')
