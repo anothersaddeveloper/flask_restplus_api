@@ -54,6 +54,25 @@ def create_new_user(data):
         patient.set_password(data['password'])
         return patient
 
+def save_new_cancer_record(data):
+    data['type']='cancer'
+    cancer_record = create_new_record(data)
+    patient_exists = Patient.query.filter_by(id=data['patient_id']).first()
+    if patient_exists:
+        # TODO create a function to create a record depending on data attribute
+        save_changes(cancer_record)
+        response_object = {
+            'status': 'success',
+            'message': 'Successfully created record.'
+        }
+        return response_object, 201
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Patient not found. Please Log in.',
+        }
+        return response_object, 409
+
 def save_new_record(data):
     diabetes = DiabetesRecord(
         bmi=data['bmi'],
@@ -98,8 +117,20 @@ def create_new_record(data):
             triceps_skin_fold_thickness=data['triceps_skin_fold_thickness']
         )
     elif data['type'] == 'Cancer':
-        # TODO implement cancer creation
-        return ""
+        return CancerRecord(
+            patient_id=data['patient_id'],
+            age=data['age'],
+            bmi=data['bmi'],
+            glucose=data['glucose'],
+            insulin=data['insulin'],
+            homa=data['homa'],
+            leptin=data['leptin'],
+            adiponectin=data['adiponectin'],
+            resistin=data['resistin'],
+            mcp_1=data['mcp_1'],
+            prediction=data['prediction'],
+            timestamp=datetime.datetime.now()
+        )
     elif data['type'] == 'HeartDisease':
         # TODO implement heart creation
         return ""

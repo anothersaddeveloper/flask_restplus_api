@@ -37,6 +37,7 @@ class InsuranceProfessionalDto:
 class CancerRecordDto:
     api = Namespace('cancer', description='cancer record related operations')
     cancer = api.model('cancer', {
+        'patient_id': fields.Integer(required=True),
         'age': fields.Integer(required=True, description='insurance professional email address'),
         'bmi': fields.Float(required=True, description='insurance professional username'),
         'glucose': fields.Integer(required=True, description='insurance professional password'),
