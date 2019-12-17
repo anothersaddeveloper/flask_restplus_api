@@ -89,6 +89,7 @@ class DiabetesRecord(db.Model):
     bmi = db.Column(db.Float)
     diabetes_pedigree_function = db.Column(db.Float)
     age = db.Column(db.Integer)
+    prediction = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, nullable=False)
 
     def get_timestamp(self):
@@ -112,6 +113,7 @@ class CancerRecord(db.Model):
     adiponectin = db.Column(db.Integer)
     resistin = db.Column(db.Integer)
     mcp_1 = db.Column(db.Float)
+    prediction = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, nullable=False)
 
     def get_timestamp(self):
@@ -140,6 +142,7 @@ class HeartDiseaseRecord(db.Model):
     number_major_vessels = db.Column(db.Integer)
     thal = db.Column(db.Integer)
     diagnosis_heart_disease = db.Column(db.Integer)
+    prediction = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, nullable=False)
 
     def get_timestamp(self):

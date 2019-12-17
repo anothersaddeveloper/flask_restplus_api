@@ -64,6 +64,7 @@ def save_new_record(data):
         diastolic_blood_pressure=data['diastolic_blood_pressure'],
         diabetes_pedigree_function=data['diabetes_pedigree_function'],
         triceps_skin_fold_thickness=data['triceps_skin_fold_thickness'],
+        prediction=data['prediction'],
         timestamp=datetime.datetime.now()
     )
 

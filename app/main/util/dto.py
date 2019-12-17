@@ -45,7 +45,10 @@ class CancerRecordDto:
         'leptin': fields.Integer(required=True, description='profession variable'),
         'adiponectin': fields.Integer(required=True, description='profession variable'),
         'resistin': fields.Integer(required=True, description='profession variable'),
-        'mcp_1': fields.Integer(required=True, description='profession variable')
+        'mcp_1': fields.Integer(required=True, description='profession variable'),
+        'prediction': fields.Integer(required=True, description='cancer prediction')
+
+
     })
 
 class DiabetesRecordDto:
@@ -60,7 +63,9 @@ class DiabetesRecordDto:
         'glucose_concentration': fields.Float(required=True, description='patients leptin'),
         'diastolic_blood_pressure': fields.Float(required=True, description='patients adiponectin'),
         'triceps_skin_fold_thickness': fields.Float(required=True, description='patients resistin'),
-        'diabetes_pedigree_function': fields.Float(required=True, description='patients mcp_1')
+        'diabetes_pedigree_function': fields.Float(required=True, description='patients mcp_1'),
+        'prediction': fields.Integer(required=True, description='diabetes prediction')
+
     })
 
 class HeartRecordDto:
