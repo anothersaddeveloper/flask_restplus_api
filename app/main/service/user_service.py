@@ -166,6 +166,16 @@ def get_all_diabetes_records_for_patient(first_name, last_name):
         }
         return response_object, 404
 
+def get_all_cancer_records_for_patient(first_name, last_name):
+    patient = Patient.query.filter_by(first_name=first_name, last_name=last_name).first()
+    if patient:
+        return CancerRecord.query.filter_by(patient_id=patient.id).all()
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'User not found. Please check your input.',
+        }
+        return response_object, 404
 
 def get_patient_cancer_records(id):
     return CancerRecord.query.filter_by(patient_id=id).all()

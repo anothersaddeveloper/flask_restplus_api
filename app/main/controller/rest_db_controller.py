@@ -2,7 +2,7 @@ from flask import request
 from flask_restplus import Resource
 
 from ..util.dto import PatientDiabetesHistoryDto, LoginDto, PatientDto, DoctorDto, InsuranceProfessionalDto, CancerRecordDto, DiabetesRecordDto, HeartRecordDto
-from ..service.user_service import get_all_diabetes_records, login_user, save_new_record, save_new_user, get_all_patients, get_a_patient, get_a_doctor, get_all_doctors, get_all_insurance_professionals, get_an_insurance_professional, get_all_diabetes_records_for_patient
+from ..service.user_service import get_all_cancer_records_for_patient, get_all_cancer_records, get_all_diabetes_records, login_user, save_new_record, save_new_user, get_all_patients, get_a_patient, get_a_doctor, get_all_doctors, get_all_insurance_professionals, get_an_insurance_professional, get_all_diabetes_records_for_patient
 
 login_api = LoginDto.api
 patient_api = PatientDto.api
@@ -125,28 +125,30 @@ class InsuranceProfessional(Resource):
         else:
             return insurance_professional
 
-@cancer_api.route('/<id>')
-@cancer_api.param('id', 'insurance professional ID')
+@cancer_api.route('/')
 @cancer_api.response(404, 'no records for given patient')
 class CancerRecord(Resource):
     @cancer_api.doc('get cancer records for a patient')
-    @cancer_api.marshal_with(_cancer)
-    def get(self, public_id):
+    @cancer_api.marshal_with(_cancer, envelope='data')
+    def get(self):
         """get a patient given its identifier"""
-        cancer_record = get_an_insurance_professional(public_id)
-        if not cancer_record:
-            cancer_api.abort(404)
-        else:
-            return cancer_record
+        return get_all_cancer_records()
+        
+    @cancer_api.response(201, 'Cancer record successfully created.')
+    @cancer_api.doc('create a cancer record for a patient')
+    @cancer_api.expect(_cancer, validate=True)
+    def post(self):
+        """Creates a new cancer record for a given patient """
+        data = request.json
+        return save_new_record(data=data)
 
 @diabetes_api.route('/')
 class DiabetesRecord(Resource):
     @diabetes_api.doc('list of all diabetes records for a patient')
     @diabetes_api.marshal_list_with(_diabetes, envelope='data')
     def get(self):
-        # TODO change to return all records within DB
-        """List all diabetes records for a Patient with given first and last name"""
-        return get_all_diabetes_records_for_patient()
+        """List all cancer records in the DB"""
+        return get_all_diabetes_records()
 
     @diabetes_api.response(201, 'Diabetes record successfully created.')
     @diabetes_api.doc('create a diabetes record for a patient')
@@ -165,9 +167,19 @@ class PatientDiabetesHistory(Resource):
         """List all diabetes records for a Patient with given first and last name"""
         return get_all_diabetes_records_for_patient(first_name, last_name)
         
+
+@diabetes_api.route('/patient_history/<first_name>/<last_name>')
+@diabetes_api.param('first_name', 'patients first name')
+@diabetes_api.param('last_name', 'patients last name')
+class PatientCancerHistory(Resource):
+    @diabetes_api.marshal_with(_diabetes)
+    def get(self, first_name, last_name):
+        """List all diabetes records for a Patient with given first and last name"""
+        return get_all_cancer_records_for_patient(first_name, last_name)
+
 @diabetes_api.route('/diabetes_history/')
 class DiabetesHistory(Resource):
     @diabetes_api.marshal_with(_diabetes)
     def get(self):
-        """List all diabetes records for a Patient with given first and last name"""
+        """List all diabetes records in the DB"""
         return get_all_diabetes_records()
