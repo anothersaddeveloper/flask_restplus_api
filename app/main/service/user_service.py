@@ -55,7 +55,7 @@ def create_new_user(data):
         return patient
 
 def save_new_cancer_record(data):
-    data['type']='cancer'
+    data['type']='Cancer'
     cancer_record = create_new_record(data)
     patient_exists = Patient.query.filter_by(id=data['patient_id']).first()
     if patient_exists:
