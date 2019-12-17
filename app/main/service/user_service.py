@@ -74,24 +74,12 @@ def save_new_cancer_record(data):
         return response_object, 409
 
 def save_new_record(data):
-    diabetes = DiabetesRecord(
-        bmi=data['bmi'],
-        age=data['age'],
-        patient_id=data['patient_id'],
-        times_pregnant=data['times_pregnant'],
-        glucose_concentration=data['glucose_concentration'],
-        diastolic_blood_pressure=data['diastolic_blood_pressure'],
-        diabetes_pedigree_function=data['diabetes_pedigree_function'],
-        triceps_skin_fold_thickness=data['triceps_skin_fold_thickness'],
-        prediction=data['prediction'],
-        timestamp=datetime.datetime.now()
-    )
+    record = create_new_record(data)
 
     patient_exists = Patient.query.filter_by(id=data['patient_id']).first()
     if patient_exists:
         # TODO create a function to create a record depending on data attribute
-        new_record = diabetes
-        save_changes(new_record)
+        save_changes(record)
         response_object = {
             'status': 'success',
             'message': 'Successfully created record.'
@@ -114,7 +102,10 @@ def create_new_record(data):
             glucose_concentration=data['glucose_concentration'],
             diastolic_blood_pressure=data['diastolic_blood_pressure'],
             diabetes_pedigree_function=data['diabetes_pedigree_function'],
-            triceps_skin_fold_thickness=data['triceps_skin_fold_thickness']
+            triceps_skin_fold_thickness=data['triceps_skin_fold_thickness'],
+            prediction=data['prediction'],
+            timestamp=datetime.datetime.now()
+
         )
     elif data['type'] == 'Cancer':
         return CancerRecord(
@@ -132,8 +123,25 @@ def create_new_record(data):
             timestamp=datetime.datetime.now()
         )
     elif data['type'] == 'HeartDisease':
-        # TODO implement heart creation
-        return ""
+        return HeartDiseaseRecord(
+            patient_id=data['patient_id'],
+            age=data['age'],
+            sex=data['sex'],
+            chest_pain_type=data['chest_pain_type'],
+            resting_blood_pressure=data['resting_blood_pressure'],
+            fasting_blood_sugar=data['fasting_blood_sugar'],
+            cholesterol=data['cholesterol'],
+            resting_electrocardiographic=data['resting_electrocardiographic'],
+            maximum_heart_rate=data['maximum_heart_rate'],
+            exercise_induced_angina=data['exercise_induced_angina'],
+            depression_induced_exercise=data['depression_induced_exercise'],
+            peak_exercise=data['peak_exercise'],
+            number_major_vessels=data['number_major_vessels'],
+            thal=data['thal'],
+            diagnosis_heart_disease= data['diagnosis_heart_disease'],
+            prediction=data['prediction'],
+            timestamp=datetime.datetime.now()
+        )
 
 def login_user(data):
     patient = Patient.query.filter_by(username=data['username']).first()

@@ -15,10 +15,6 @@ class Patient(db.Model):
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctors.id'))
     diabetes_records = db.relationship("DiabetesRecord")
 
-    # @property
-    # def password(self):
-    #     raise AttributeError('password: write-only field')
-
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
@@ -41,8 +37,9 @@ class Doctor(db.Model):
     password_hash = db.Column(db.String(100))
     patients = db.relationship("Patient")
 
-    def password(self, password):
+    def set_password(self, password):
         self.password_hash = generate_password_hash(password)
+
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
@@ -137,7 +134,7 @@ class HeartDiseaseRecord(db.Model):
     resting_electrocardiographic = db.Column(db.Float)
     maximum_heart_rate = db.Column(db.Integer)
     exercise_induced_angina = db.Column(db.Integer)
-    epression_induced_exercise = db.Column(db.Integer)
+    depression_induced_exercise = db.Column(db.Integer)
     peak_exercise = db.Column(db.Integer)
     number_major_vessels = db.Column(db.Integer)
     thal = db.Column(db.Integer)

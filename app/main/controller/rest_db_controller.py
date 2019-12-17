@@ -2,7 +2,7 @@ from flask import request
 from flask_restplus import Resource
 
 from ..util.dto import PatientDiabetesHistoryDto, LoginDto, PatientDto, DoctorDto, InsuranceProfessionalDto, CancerRecordDto, DiabetesRecordDto, HeartRecordDto
-from ..service.user_service import save_new_cancer_record, get_all_cancer_records_for_patient, get_all_cancer_records, get_all_diabetes_records, login_user, save_new_record, save_new_user, get_all_patients, get_a_patient, get_a_doctor, get_all_doctors, get_all_insurance_professionals, get_an_insurance_professional, get_all_diabetes_records_for_patient
+from ..service.user_service import get_all_heart_records ,save_new_cancer_record, get_all_cancer_records_for_patient, get_all_cancer_records, get_all_diabetes_records, login_user, save_new_record, save_new_user, get_all_patients, get_a_patient, get_a_doctor, get_all_doctors, get_all_insurance_professionals, get_an_insurance_professional, get_all_diabetes_records_for_patient
 
 login_api = LoginDto.api
 patient_api = PatientDto.api
@@ -141,6 +141,23 @@ class CancerRecord(Resource):
         """Creates a new cancer record for a given patient """
         data = request.json
         return save_new_cancer_record(data=data)
+
+@heart_api.route('/')
+@heart_api.response(404, 'no records for given patient')
+class HeartDiseaseRecord(Resource):
+    @heart_api.doc('get cancer records for a patient')
+    @heart_api.marshal_with(_heart, envelope='data')
+    def get(self):
+        """get a patient given its identifier"""
+        return get_all_heart_records()
+        
+    @heart_api.response(201, 'Cancer record successfully created.')
+    @heart_api.doc('create a cancer record for a patient')
+    @heart_api.expect(_heart, validate=True)
+    def post(self):
+        """Creates a new cancer record for a given patient """
+        data = request.json
+        return save_new_record(data=data)
 
 @diabetes_api.route('/')
 class DiabetesRecord(Resource):

@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 769aab71ed1a
+Revision ID: 09a80cfe0ec2
 Revises: 
-Create Date: 2019-12-04 19:03:59.249600
+Create Date: 2019-12-17 16:10:15.110275
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '769aab71ed1a'
+revision = '09a80cfe0ec2'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -68,6 +68,7 @@ def upgrade():
     sa.Column('adiponectin', sa.Integer(), nullable=True),
     sa.Column('resistin', sa.Integer(), nullable=True),
     sa.Column('mcp_1', sa.Float(), nullable=True),
+    sa.Column('prediction', sa.Integer(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -82,6 +83,7 @@ def upgrade():
     sa.Column('bmi', sa.Float(), nullable=True),
     sa.Column('diabetes_pedigree_function', sa.Float(), nullable=True),
     sa.Column('age', sa.Integer(), nullable=True),
+    sa.Column('prediction', sa.Integer(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -98,11 +100,12 @@ def upgrade():
     sa.Column('resting_electrocardiographic', sa.Float(), nullable=True),
     sa.Column('maximum_heart_rate', sa.Integer(), nullable=True),
     sa.Column('exercise_induced_angina', sa.Integer(), nullable=True),
-    sa.Column('epression_induced_exercise', sa.Integer(), nullable=True),
+    sa.Column('depression_induced_exercise', sa.Integer(), nullable=True),
     sa.Column('peak_exercise', sa.Integer(), nullable=True),
     sa.Column('number_major_vessels', sa.Integer(), nullable=True),
     sa.Column('thal', sa.Integer(), nullable=True),
     sa.Column('diagnosis_heart_disease', sa.Integer(), nullable=True),
+    sa.Column('prediction', sa.Integer(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
     sa.PrimaryKeyConstraint('id')

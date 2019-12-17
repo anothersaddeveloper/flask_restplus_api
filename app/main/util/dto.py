@@ -8,7 +8,7 @@ class PatientDto:
         'username': fields.String(required=True, description='patients username'),
         'first_name': fields.String(required=True, description='patients first name'),
         'last_name': fields.String(required=True, description='patients last name'),
-        'password_hash': fields.String(required=True, description='patient password'),
+        'password': fields.String(required=True, description='patient password'),
         'profession': fields.String(required=True, description='profession variable')
     })
 
@@ -47,9 +47,8 @@ class CancerRecordDto:
         'adiponectin': fields.Integer(required=True, description='profession variable'),
         'resistin': fields.Integer(required=True, description='profession variable'),
         'mcp_1': fields.Integer(required=True, description='profession variable'),
-        'prediction': fields.Integer(required=True, description='cancer prediction')
-
-
+        'prediction': fields.Integer(required=True, description='cancer prediction'),
+        'type': fields.String(required=True, description='cancer prediction', default="Cancer")
     })
 
 class DiabetesRecordDto:
@@ -65,22 +64,32 @@ class DiabetesRecordDto:
         'diastolic_blood_pressure': fields.Float(required=True, description='patients adiponectin'),
         'triceps_skin_fold_thickness': fields.Float(required=True, description='patients resistin'),
         'diabetes_pedigree_function': fields.Float(required=True, description='patients mcp_1'),
-        'prediction': fields.Integer(required=True, description='diabetes prediction')
+        'prediction': fields.Integer(required=True, description='diabetes prediction'),
+        'type': fields.String(required=True, description='diabetes prediction', default='Diabetes')
+
 
     })
 
 class HeartRecordDto:
     api = Namespace('heart', description='heart record related operations')
     heart = api.model('heart', {
+        'patient_id': fields.Integer(required=True, description='insurance professional email address'),
         'age': fields.Integer(required=True, description='insurance professional email address'),
-        'bmi': fields.Float(required=True, description='insurance professional username'),
-        'glucose': fields.Integer(required=True, description='insurance professional password'),
-        'insulin': fields.Integer(required=True, description='profession variable'),
-        'homa': fields.Integer(required=True, description='profession variable'),
-        'leptin': fields.Integer(required=True, description='profession variable'),
-        'adiponectin': fields.Integer(required=True, description='profession variable'),
-        'resistin': fields.Integer(required=True, description='profession variable'),
-        'mcp_1': fields.Integer(required=True, description='profession variable')
+        'sex': fields.Integer(required=True, description='insurance professional email address'),
+        'chest_pain_type': fields.Float(required=True, description='insurance professional username'),
+        'resting_blood_pressure': fields.Integer(required=True, description='insurance professional password'),
+        'fasting_blood_sugar': fields.Integer(required=True, description='insurance professional password'),
+        'cholesterol': fields.Integer(required=True, description='profession variable'),
+        'resting_electrocardiographic': fields.Integer(required=True, description='profession variable'),
+        'maximum_heart_rate': fields.Integer(required=True, description='profession variable'),
+        'exercise_induced_angina': fields.Integer(required=True, description='profession variable'),
+        'depression_induced_exercise': fields.Integer(required=True, description='profession variable'),
+        'peak_exercise': fields.Integer(required=True, description='profession variable'),
+        'number_major_vessels': fields.Integer(required=True, description='profession variable'),
+        'thal': fields.Integer(required=True, description='profession variable'),
+        'diagnosis_heart_disease': fields.Integer(required=True, description='profession variable'),
+        'prediction': fields.Integer(required=True, description='profession variable'),
+        'type': fields.String(required=True, description='profession variable')
     })
 
 class LoginDto:
