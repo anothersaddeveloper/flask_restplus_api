@@ -185,23 +185,14 @@ class PatientDiabetesHistory(Resource):
         return get_all_diabetes_records_for_patient(first_name, last_name)
         
 
-@diabetes_api.route('/patient_history/<first_name>/<last_name>')
-@diabetes_api.param('first_name', 'patients first name')
-@diabetes_api.param('last_name', 'patients last name')
+@cancer_api.route('/patient_history/<first_name>/<last_name>')
+@cancer_api.param('first_name', 'patients first name')
+@cancer_api.param('last_name', 'patients last name')
 class PatientCancerHistory(Resource):
-    @diabetes_api.marshal_with(_diabetes)
+    @cancer_api.marshal_with(_diabetes)
     def get(self, first_name, last_name):
         """List all diabetes records for a Patient with given first and last name"""
         return get_all_cancer_records_for_patient(first_name, last_name)
-
-@heart_api.route('/patient_history/<first_name>/<last_name>')
-@heart_api.param('first_name', 'patients first name')
-@heart_api.param('last_name', 'patients last name')
-class PatientCancerHistory(Resource):
-    @heart_api.marshal_with(_diabetes)
-    def get(self, first_name, last_name):
-        """List all diabetes records for a Patient with given first and last name"""
-        return get_patient_heart_records(first_name, last_name)
 
 @diabetes_api.route('/diabetes_history/')
 class DiabetesHistory(Resource):
